@@ -2,18 +2,10 @@
 #include "layers.h"
 #include "version.h"
 
-// Timer to detect tap/hold on NEO_RMOD3 key
-static uint16_t neo3_timer;
-// State bitmap to track which key(s) enabled NEO_3 layer
-// Bit 1 = LMOD state
-// Bit 2 = RMOD state
-// Bit 3 = Seen other keypress
-static uint8_t neo3_state = 0;
+// Tracker for toggle keys that exist multiple times
+static uint8_t mod3_tracker  = 0;
 // State bitmap to track key combo for CAPSLOCK
 static uint8_t capslock_state = 0;
-
-// bitmasks for modifier keys
-#define MOD_MASK_NONE 0
 
 // Used to trigger macros / sequences of keypresses
 enum custom_keycodes {
@@ -24,8 +16,6 @@ enum custom_keycodes {
     US_OSX_CAPITAL_UE,
     US_OSX_CAPITAL_AE,
     US_OSX_CAPITAL_OE,
-    NEO2_LMOD3,
-    NEO2_RMOD3,
     NEO2_1,
     NEO2_2,
     NEO2_3,
@@ -45,6 +35,8 @@ enum custom_keycodes {
     NEO2_SHARP_S
 };
 
+#define NEO2_LMOD3 MO(NEO_3)
+#define NEO2_RMOD3 LT(NEO_3, KC_Y)
 #define NEO2_LMOD4 TT(NEO_4)
 #define NEO2_RMOD4 NEO2_LMOD4
 
@@ -438,24 +430,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // @formatter:on
 // clang-format on
 
-// Send a key tap with a optional set of modifiers.
-void tap_with_modifiers(uint16_t keycode, uint8_t force_modifiers) {
-    uint8_t active_modifiers = get_mods();
-
-    if ((force_modifiers & MOD_MASK_SHIFT) && !(active_modifiers & MOD_MASK_SHIFT)) register_code(KC_LSFT);
-    if ((force_modifiers & MOD_MASK_CTRL) && !(active_modifiers & MOD_MASK_CTRL)) register_code(KC_LCTRL);
-    if ((force_modifiers & MOD_MASK_ALT) && !(active_modifiers & MOD_MASK_ALT)) register_code(KC_LALT);
-    if ((force_modifiers & MOD_MASK_GUI) && !(active_modifiers & MOD_MASK_GUI)) register_code(KC_LGUI);
-
-    register_code(keycode);
-    unregister_code(keycode);
-
-    if ((force_modifiers & MOD_MASK_SHIFT) && !(active_modifiers & MOD_MASK_SHIFT)) unregister_code(KC_LSFT);
-    if ((force_modifiers & MOD_MASK_CTRL) && !(active_modifiers & MOD_MASK_CTRL)) unregister_code(KC_LCTRL);
-    if ((force_modifiers & MOD_MASK_ALT) && !(active_modifiers & MOD_MASK_ALT)) unregister_code(KC_LALT);
-    if ((force_modifiers & MOD_MASK_GUI) && !(active_modifiers & MOD_MASK_GUI)) unregister_code(KC_LGUI);
-}
-
 // Special remapping for keys with different keycodes/macros when used with shift modifiers.
 bool process_record_user_shifted(uint16_t keycode, keyrecord_t *record) {
     uint8_t active_modifiers = get_mods();
@@ -638,53 +612,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 capslock_state &= ~(MOD_BIT(KC_RSHIFT));
             }
             break;
-        case NEO2_LMOD3:
-            if (record->event.pressed) {
-                layer_on(NEO_3);
-                neo3_state |= (1 << 1);
-            } else {
-                // Turn off NEO_3 layer unless it's enabled through NEO2_RMOD3 as well.
-                if ((neo3_state & (1 << 2)) == 0) {
-                    layer_off(NEO_3);
-                }
-                neo3_state &= ~(1 << 1);
-            }
-            break;
         case NEO2_RMOD3:
             if (record->event.pressed) {
-                neo3_timer = timer_read();
-                neo3_state |= (1 << 2);
-                // Reset tap detection state
-                neo3_state &= ~(1 << 3);
-                layer_on(NEO_3);
-            } else {
-                // Turn off NEO_3 layer unless it's enabled through NEO2_LMOD3 as well.
-                if ((neo3_state & (1 << 1)) == 0) {
-                    layer_off(NEO_3);
-                }
-                neo3_state &= ~(1 << 2);
-
-                // Was the NEO2_RMOD3 key TAPPED?
-                if (timer_elapsed(neo3_timer) <= TAPPING_TERM) {
-                    if ((neo3_state & ~(1 << 3)) > 0) {
-                        // We are still in NEO_3 layer, send keycode and modifiers for @
-                        tap_with_modifiers(KC_2, MOD_MASK_SHIFT);
+                if (record->tap.count && !record->tap.interrupted) {
+                    if (IS_LAYER_ON(NEO_3)) {
+                        register_code(KC_LSFT);
+                        register_code(KC_2);
                         return false;
-                    } else {
-                        // Do the normal key processing, send y
-                        if ((neo3_state & (1 << 3)) == 0) {
-                            tap_with_modifiers(KC_Y, MOD_MASK_NONE);
-                        }
+                    }
+                }
+            } else {
+                if (record->tap.count && !record->tap.interrupted) {
+                    if (IS_LAYER_ON(NEO_3)) {
+                        unregister_code(KC_2);
+                        unregister_code(KC_LSFT);
                         return false;
                     }
                 }
             }
             break;
         default:
-            if (record->event.pressed && neo3_state > 0) {
-                // Track that we've seen a separate keypress event
-                neo3_state |= (1 << 3);
-            }
             break;
     }
 
@@ -701,9 +648,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return process_record_user_shifted(keycode, record);
 };
 
-// Runs just one time when the keyboard initializes.
-void matrix_init_user(void){
-
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case NEO2_LMOD3:
+        case NEO2_RMOD3:
+            if (record->event.pressed) {
+                mod3_tracker++;
+            } else {
+                mod3_tracker--;
+                if (mod3_tracker && !IS_LAYER_ON(NEO_3)) {
+                    layer_on(NEO_3);
+                }
+            }
+            break;
+    }
 };
 
 // Runs constantly in the background, in a loop.
@@ -715,7 +673,6 @@ void matrix_scan_user(void) {
     ergodox_right_led_2_off();
     ergodox_right_led_3_off();
     switch (layer) {
-            // TODO: Make this relevant to the ErgoDox EZ.
         case 1:
             ergodox_right_led_1_on();
             break;

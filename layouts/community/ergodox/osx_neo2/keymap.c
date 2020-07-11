@@ -4,8 +4,7 @@
 
 // Tracker for toggle keys that exist multiple times
 static uint8_t mod3_tracker  = 0;
-// State bitmap to track key combo for CAPSLOCK
-static uint8_t capslock_state = 0;
+static uint8_t shift_tracker = 0;
 
 // Used to trigger macros / sequences of keypresses
 enum custom_keycodes {
@@ -599,17 +598,17 @@ bool process_record_user_shifted(uint16_t keycode, keyrecord_t *record) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case KC_LSHIFT:
-            if (record->event.pressed) {
-                capslock_state |= (MOD_BIT(KC_LSHIFT));
-            } else {
-                capslock_state &= ~(MOD_BIT(KC_LSHIFT));
-            }
-            break;
         case KC_RSHIFT:
             if (record->event.pressed) {
-                capslock_state |= MOD_BIT(KC_RSHIFT);
+                shift_tracker++;
             } else {
-                capslock_state &= ~(MOD_BIT(KC_RSHIFT));
+                shift_tracker--;
+            }
+
+            // Both SHIFT keys are pressed right now, send caps lock
+            if (shift_tracker == 2) {
+                tap_code(KC_CAPS);
+                return false;
             }
             break;
         case NEO2_RMOD3:
@@ -633,16 +632,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         default:
             break;
-    }
-
-    if ((capslock_state & MOD_MASK_SHIFT) == MOD_MASK_SHIFT) {
-        // CAPSLOCK is currently active, disable it
-        if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
-            unregister_code(KC_LOCKING_CAPS);
-        } else {
-            register_code(KC_LOCKING_CAPS);
-        }
-        return false;
     }
 
     return process_record_user_shifted(keycode, record);

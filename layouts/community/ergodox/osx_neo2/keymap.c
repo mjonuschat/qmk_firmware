@@ -1,16 +1,18 @@
 #include QMK_KEYBOARD_H
 #include "layers.h"
 #include "version.h"
+#include <stdbool.h>
 
-// Timer to detect tap/hold on NEO_RMOD3 key
-static uint16_t neo3_timer;
-// State bitmap to track which key(s) enabled NEO_3 layer
-// Bit 1 = LMOD state
-// Bit 2 = RMOD state
-// Bit 3 = Seen other keypress
-static uint8_t neo3_state = 0;
-// State bitmap to track key combo for CAPSLOCK
-static uint8_t capslock_state = 0;
+struct DualTapHoldKeyState {
+    bool lkey_pressed;
+    uint16_t lkey_timer;
+    bool rkey_pressed;
+    uint16_t rkey_timer;
+    bool seen_other;
+};
+
+static struct DualTapHoldKeyState capslock_state;
+static struct DualTapHoldKeyState neo3_state;
 
 // bitmasks for modifier keys
 #define MOD_MASK_NONE 0
@@ -622,53 +624,52 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case KC_LSHIFT:
       if (record->event.pressed) {
-        capslock_state |= (MOD_BIT(KC_LSHIFT));
+        capslock_state.lkey_pressed = true;
       } else {
-        capslock_state &= ~(MOD_BIT(KC_LSHIFT));
+        capslock_state.lkey_pressed = false;
       }
       break;
     case KC_RSHIFT:
       if (record->event.pressed) {
-        capslock_state |= MOD_BIT(KC_RSHIFT);
+        capslock_state.rkey_pressed = true;
       } else {
-        capslock_state &= ~(MOD_BIT(KC_RSHIFT));
+        capslock_state.rkey_pressed = false;
       }
       break;
     case NEO2_LMOD3:
       if (record->event.pressed) {
         layer_on(NEO_3);
-        neo3_state |= (1 << 1);
+        neo3_state.lkey_pressed = true;
       } else {
         // Turn off NEO_3 layer unless it's enabled through NEO2_RMOD3 as well.
-        if ((neo3_state & (1 << 2)) == 0) {
+        if (!neo3_state.rkey_pressed) {
           layer_off(NEO_3);
         }
-        neo3_state &= ~(1 << 1);
+        neo3_state.lkey_pressed = false;
       }
       break;
     case NEO2_RMOD3:
       if (record->event.pressed) {
-        neo3_timer = timer_read();
-        neo3_state |= (1 << 2);
-        // Reset tap detection state
-        neo3_state &= ~(1 << 3);
+        neo3_state.rkey_timer = timer_read();
+        neo3_state.rkey_pressed = true;
+        neo3_state.seen_other = false;
         layer_on(NEO_3);
       } else {
         // Turn off NEO_3 layer unless it's enabled through NEO2_LMOD3 as well.
-        if ((neo3_state & (1 << 1)) == 0) {
+        if (neo3_state.lkey_pressed == false) {
           layer_off(NEO_3);
         }
-        neo3_state &= ~(1 << 2);
+        neo3_state.rkey_pressed = false;
 
         // Was the NEO2_RMOD3 key TAPPED?
-        if (timer_elapsed(neo3_timer) <= TAPPING_TERM) {
-          if ((neo3_state & ~(1 << 3)) > 0) {
+        if (timer_elapsed(neo3_state.rkey_timer) <= TAPPING_TERM) {
+          if (neo3_state.lkey_pressed) {
             // We are still in NEO_3 layer, send keycode and modifiers for @
             tap_with_modifiers(KC_2, MOD_MASK_SHIFT);
             return false;
           } else {
             // Do the normal key processing, send y
-            if ((neo3_state & (1 << 3)) == 0) {
+            if (!neo3_state.seen_other) {
               tap_with_modifiers(KC_Y, MOD_MASK_NONE);
             }
             return false;
@@ -677,14 +678,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       break;
     default:
-      if (record->event.pressed && neo3_state > 0) {
+      if (record->event.pressed && (neo3_state.lkey_pressed || neo3_state.rkey_pressed)) {
         // Track that we've seen a separate keypress event
-        neo3_state |= (1 << 3);
+        neo3_state.seen_other = true;
       }
       break;
   }
 
-  if ((capslock_state & MOD_MASK_SHIFT) == MOD_MASK_SHIFT) {
+  if (capslock_state.lkey_pressed && capslock_state.rkey_pressed) {
     // CAPSLOCK is currently active, disable it
     if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
       unregister_code(KC_LOCKING_CAPS);

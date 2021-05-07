@@ -3,6 +3,8 @@
 #include "version.h"
 #include <stdbool.h>
 
+LEADER_EXTERNS();
+
 struct DualTapHoldKeyState {
     bool lkey_pressed;
     uint16_t lkey_timer;
@@ -129,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
   [NEO_1] = LAYOUT_ergodox(
     // left hand side - main
-    KC_NO /* NOOP */, NEO2_1,                   NEO2_2,                   NEO2_3,                   NEO2_4,           NEO2_5,           KC_ESCAPE,
+    KC_LEAD,          NEO2_1,                   NEO2_2,                   NEO2_3,                   NEO2_4,           NEO2_5,           KC_ESCAPE,
     KC_TAB,           KC_X,                     KC_V,                     KC_L,                     KC_C,             KC_W,             KC_LCTRL,
     NEO2_LMOD3,       KC_U,                     KC_I,                     KC_A,                     KC_E,             KC_O,             /* --- */
     KC_LSHIFT,        NEO2_UE,                  NEO2_OE,                  NEO2_AE,                  KC_P,             KC_Z,             KC_LALT,
@@ -735,5 +737,125 @@ void matrix_scan_user(void) {
     default:
       // none
       break;
+  }
+
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end();
+
+    // Moom - move and zoom windows
+    SEQ_TWO_KEYS(KC_M, KC_LEFT) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_LEFT);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_RIGHT) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_RIGHT);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_UP) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_UP);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_DOWN) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_DOWN);
+    }
+
+    SEQ_TWO_KEYS(KC_M, KC_H) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_U);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_G) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_I);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_N) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_J);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_R) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_K);
+    }
+
+    SEQ_TWO_KEYS(KC_M, KC_A) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_D);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_L) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_E);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_E) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_F);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_W) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_T);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_O) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_G);
+    }
+
+    SEQ_TWO_KEYS(KC_M, NEO2_1) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_1);
+    }
+    SEQ_TWO_KEYS(KC_M, NEO2_2) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_2);
+    }
+    SEQ_TWO_KEYS(KC_M, NEO2_3) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_3);
+    }
+    SEQ_TWO_KEYS(KC_M, NEO2_4) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_4);
+    }
+    SEQ_TWO_KEYS(KC_M, NEO2_5) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_5);
+    }
+    SEQ_TWO_KEYS(KC_M, NEO2_6) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_6);
+    }
+    SEQ_TWO_KEYS(KC_M, NEO2_COMMA) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_COMMA);
+    }
+    SEQ_TWO_KEYS(KC_M, NEO2_DOT) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_DOT);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_M) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_M);
+    }
+
+    SEQ_THREE_KEYS(KC_M, KC_LEFT, KC_LEFT) {
+      tap_code16(MEH(KC_M));
+      tap_code16(MEH(KC_LEFT));
+    }
+    SEQ_THREE_KEYS(KC_M, KC_RIGHT, KC_RIGHT) {
+      tap_code16(MEH(KC_M));
+      tap_code16(MEH(KC_RIGHT));
+    }
+
+    SEQ_TWO_KEYS(KC_M, KC_ENTER) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_ENTER);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_C) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_C);
+    }
+    SEQ_TWO_KEYS(KC_M, KC_BSPACE) {
+      tap_code16(MEH(KC_M));
+      tap_code(KC_BSPACE);
+    }
   }
 };

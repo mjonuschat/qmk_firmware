@@ -638,14 +638,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case NEO2_LMOD3:
       if (record->event.pressed) {
-        layer_on(NEO_3);
+        neo3_state.lkey_timer = timer_read();
         neo3_state.lkey_pressed = true;
+        neo3_state.seen_other = false;
+        layer_on(NEO_3);
       } else {
         // Turn off NEO_3 layer unless it's enabled through NEO2_RMOD3 as well.
         if (!neo3_state.rkey_pressed) {
           layer_off(NEO_3);
         }
         neo3_state.lkey_pressed = false;
+
+        // Was the NEO2_LMOD3 key TAPPED?
+        if (timer_elapsed(neo3_state.lkey_timer) <= TAPPING_TERM) {
+          if (!neo3_state.rkey_pressed) {
+            // Send ESC
+            if (!neo3_state.seen_other) {
+              tap_with_modifiers(KC_ESCAPE, MOD_MASK_NONE);
+            }
+            return false;
+          }
+        }
       }
       break;
     case NEO2_RMOD3:

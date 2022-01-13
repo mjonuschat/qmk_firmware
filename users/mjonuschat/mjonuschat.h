@@ -10,10 +10,10 @@
 #include "keyrecords/process_records.h"
 #include "callbacks.h"
 
-//#if defined(RGBLIGHT_ENABLE)
-//#    include "rgb/rgb_stuff.h"
-//#endif
-//#if defined(RGB_MATRIX_ENABLE)
+#ifdef RGBLIGHT_ENABLE
+#    include "rgb/rgb_light_user.h"
+#endif
+//#if RGB_MATRIX_ENABLE
 //#    include "rgb/rgb_matrix_stuff.h"
 //#endif
 #ifdef ST7565_ENABLE

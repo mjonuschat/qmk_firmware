@@ -34,3 +34,13 @@ ifeq ($(strip $(ST7565_ENABLE)), yes)
         OPT_DEFS += -DCUSTOM_LCD_DRIVER_CODE
     endif
 endif
+
+CUSTOM_RGBLIGHT ?= yes
+ifeq ($(strip $(RGBLIGHT_ENABLE)), yes)
+    ifeq ($(strip $(CUSTOM_RGBLIGHT)), yes)
+        SRC += $(USER_PATH)/rgb/rgb_light_user.c
+        ifeq ($(strip $(RGBLIGHT_STARTUP_ANIMATION)), yes)
+            SRC += $(USER_PATH)/rgb/rgb_light_animation.c
+        endif
+    endif
+endif

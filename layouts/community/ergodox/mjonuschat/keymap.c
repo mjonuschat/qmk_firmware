@@ -277,8 +277,69 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 // clang-format on
+#ifdef ST7565_ENABLE
+bool st7565_active_user = false;
+
+void ergodox_infinity_lcd_color_rgb(uint8_t r, uint8_t g, uint8_t b) {
+    // 16 bit RGB values
+    ergodox_infinity_lcd_color(r * 257, g * 257, b * 257);
+}
+
+void ergodox_infinity_layer_state_color(void) {
+    if (!st7565_active_user) {
+        return;
+    }
+
+    switch (get_highest_layer(layer_state | default_layer_state)) {
+        case _NEO_LAYER_6:
+            ergodox_infinity_lcd_color_rgb(NEO_LAYER_6_RGB);
+            break;
+        case _NEO_LAYER_5:
+            ergodox_infinity_lcd_color_rgb(NEO_LAYER_5_RGB);
+            break;
+        case _NEO_LAYER_4:
+            ergodox_infinity_lcd_color_rgb(NEO_LAYER_4_RGB);
+            break;
+        case _NEO_LAYER_3:
+            ergodox_infinity_lcd_color_rgb(NEO_LAYER_3_RGB);
+            break;
+        case _NEO_LAYER_2:
+            ergodox_infinity_lcd_color_rgb(NEO_LAYER_2_RGB);
+            break;
+        default:
+            ergodox_infinity_lcd_color_rgb(NEO_LAYER_1_RGB);
+            break;
+    }
+}
+
+void st7565_on_user(void) {
+    st7565_active_user = true;
+    ergodox_infinity_layer_state_color();
+}
+
+void st7565_off_user(void) {
+    st7565_active_user = false;
+    ergodox_infinity_lcd_color_rgb(0, 0, 0);
+}
+#endif
+
+void keyboard_pre_init_keymap(void) {
+#ifdef ST7565_ENABLE
+    st7565_active_user = true;
+#endif
+}
+
+void matrix_slave_scan_keymap(void) {
+#ifdef ST7565_ENABLE
+    ergodox_infinity_layer_state_color();
+#endif
+}
 
 void matrix_scan_keymap(void) {  // runs frequently to update info
+#ifdef ST7565_ENABLE
+    ergodox_infinity_layer_state_color();
+#endif
+
     LEADER_DICTIONARY() {
         leading = false;
         leader_end();

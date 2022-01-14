@@ -26,3 +26,11 @@ NEO_LAYER4_ANSI		?= no
 ifeq ($(strip $(NEO_LAYER4_ANSI)), yes)
     OPT_DEFS += -DNEO_LAYER4_ANSI
 endif
+
+CUSTOM_LCD_DRIVER ?= yes
+ifeq ($(strip $(ST7565_ENABLE)), yes)
+    ifeq ($(strip $(CUSTOM_LCD_DRIVER)), yes)
+        SRC += $(USER_PATH)/display/st7565_user.c
+        OPT_DEFS += -DCUSTOM_LCD_DRIVER_CODE
+    endif
+endif

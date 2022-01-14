@@ -302,9 +302,9 @@ bool                       process_record_user(uint16_t keycode, keyrecord_t *re
     uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %b, time: %5u, int: %b, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 #endif  // KEYLOGGER_ENABLE
 
-#ifdef OLED_ENABLE
-    process_record_user_oled(keycode, record);
-#endif  // OLED
+#ifdef ST7565_ENABLE
+    process_record_user_st7565(keycode, record);
+#endif  // ST7565_ENABLE
 
     if (!(process_record_keymap(keycode, record)
 #ifdef RGB_MATRIX_ENABLE

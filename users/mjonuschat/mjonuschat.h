@@ -16,9 +16,9 @@
 //#if defined(RGB_MATRIX_ENABLE)
 //#    include "rgb/rgb_matrix_stuff.h"
 //#endif
-//#if defined(OLED_ENABLE)
-//#    include "oled/oled_stuff.h"
-//#endif
+#ifdef ST7565_ENABLE
+#    include "display/st7565_user.h"
+#endif
 
 /* Define layer names */
 enum userspace_layers {

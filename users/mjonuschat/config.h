@@ -16,6 +16,17 @@
 #    define TAP_HOLD_CAPS_DELAY 120
 #endif
 
+#ifdef ST7565_ENABLE
+#    ifdef SPLIT_KEYBOARD
+#        define ST7565_UPDATE_INTERVAL 60
+#    else
+#        define ST7565_UPDATE_INTERVAL 15
+#    endif
+#    ifdef ST7565_FONT_H
+#        undef ST7565_FONT_H
+#    endif
+#    define ST7565_FONT_H "display/display_font.h"
+#    define ST7565_FONT_END 255
 #endif
 
 #ifdef TAPPING_TERM

@@ -25,6 +25,8 @@ extern struct DualTapHoldKeyState neo3_state;
 enum userspace_custom_keycodes {
     PLACEHOLDER = SAFE_RANGE,  // can always be here
 
+    OSM_CLEAR,
+
     NEO_DEAD_1,
     NEO_DEAD_2,
     NEO_DEAD_3,

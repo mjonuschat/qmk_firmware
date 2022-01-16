@@ -318,6 +318,15 @@ bool                       process_record_user(uint16_t keycode, keyrecord_t *re
     }
 
     switch (keycode) {
+        case OSM_CLEAR:
+            if (record->event.pressed) {
+                unregister_mods(get_oneshot_locked_mods());
+                unregister_mods(get_oneshot_mods());
+
+                clear_oneshot_locked_mods();
+                clear_oneshot_mods();
+            }
+            return false;
         case KC_LSHIFT:
             if (record->event.pressed) {
                 shift_state.lkey_pressed = true;

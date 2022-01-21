@@ -13,9 +13,9 @@
 #ifdef RGBLIGHT_ENABLE
 #    include "rgb/rgb_light_user.h"
 #endif
-//#if RGB_MATRIX_ENABLE
-//#    include "rgb/rgb_matrix_stuff.h"
-//#endif
+#if RGB_MATRIX_ENABLE
+#    include "rgb/rgb_matrix_user.h"
+#endif
 #ifdef ST7565_ENABLE
 #    include "display/st7565_user.h"
 #endif

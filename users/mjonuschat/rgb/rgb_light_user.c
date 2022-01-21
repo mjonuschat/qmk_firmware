@@ -47,10 +47,10 @@ layer_state_t layer_state_set_rgb_light(layer_state_t state) {
                 rgblight_set_hsv_and_mode(NEO_LAYER_4_HSV, RGBLIGHT_MODE_STATIC_LIGHT);
                 break;
             case _NEO_LAYER_5:
-                rgblight_set_hsv_and_mode(NEO_LAYER_4_HSV, RGBLIGHT_MODE_STATIC_LIGHT);
+                rgblight_set_hsv_and_mode(NEO_LAYER_5_HSV, RGBLIGHT_MODE_STATIC_LIGHT);
                 break;
             case _NEO_LAYER_6:
-                rgblight_set_hsv_and_mode(NEO_LAYER_4_HSV, RGBLIGHT_MODE_STATIC_LIGHT);
+                rgblight_set_hsv_and_mode(NEO_LAYER_6_HSV, RGBLIGHT_MODE_STATIC_LIGHT);
                 break;
             case _QWERTY:
                 rgblight_set_hsv_and_mode(HSV_GREEN, RGBLIGHT_MODE_STATIC_LIGHT);

@@ -44,3 +44,10 @@ ifeq ($(strip $(RGBLIGHT_ENABLE)), yes)
         endif
     endif
 endif
+
+CUSTOM_RGB_MATRIX ?= yes
+ifeq ($(strip $(RGB_MATRIX_ENABLE)), yes)
+    ifeq ($(strip $(CUSTOM_RGB_MATRIX)), yes)
+        SRC += $(USER_PATH)/rgb/rgb_matrix_user.c
+    endif
+endif

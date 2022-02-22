@@ -22,6 +22,12 @@
 #define NEO_SMALL_SHARP_S UC(0x00DF)  // ß - U+00DF Latin Small Letter Sharp S
 #define NEO_DEAD_ACUTE UC(0x0301)     // ˊ - U+0301 Combining Acute Accent
 
+// Row 4
+// ========================================================================================================================
+#define NEO_SMALL_U_DIARESIS UC(0x00FC)  // ü - U+00FC Latin Small Letter U with Diaeresis
+#define NEO_SMALL_O_DIARESIS UC(0x00F6)  // ö - U+00F6 Latin Small Letter O with Diaeresis
+#define NEO_SMALL_A_DIARESIS UC(0x00E4)  // ä - U+00E4 Latin Small Letter A with Diaeresis
+
 // .__   __.  _______   ______       __          ___   ____    ____  _______ .______          ___
 // |  \ |  | |   ____| /  __  \     |  |        /   \  \   \  /   / |   ____||   _  \        |__ \.
 // |   \|  | |  |__   |  |  |  |    |  |       /  ^  \  \   \/   /  |  |__   |  |_)  |          ) |
@@ -52,6 +58,9 @@
 
 // Row 4
 // ========================================================================================================================
+#define NEO_CAPITAL_U_DIARESIS UC(0x00DC)  // Ü - U+00FC Latin Capital Letter U with Diaeresis
+#define NEO_CAPITAL_O_DIARESIS UC(0x00D6)  // Ö - U+00F6 Latin Capital Letter O with Diaeresis
+#define NEO_CAPITAL_A_DIARESIS UC(0x00C4)  // Ä - U+00E4 Latin Capital Letter A with Diaeresis
 #define NEO_ENDASH UC(0x2013)  // – - U+2013 En Dash
 #define NEO_BULLET UC(0x2022)  // • - U+2022 Bullet
 

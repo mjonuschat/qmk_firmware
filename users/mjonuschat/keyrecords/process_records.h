@@ -32,10 +32,11 @@ enum userspace_custom_keycodes {
     NEO_LMOD3,
     NEO_RMOD3,
 
-    NEO_SHARP_S,
-    NEO_UDIA,
-    NEO_ODIA,
-    NEO_ADIA,
+    NEO_INTL_1,
+    NEO_INTL_2,
+    NEO_INTL_3,
+    NEO_INTL_4,
+
     NEW_SAFE_RANGE  // use "NEW_SAFE_RANGE for keymap specific codes
 };
 
@@ -77,8 +78,8 @@ enum userspace_custom_keycodes {
 #define NEO_G               KC_G
 #define NEO_F               KC_F
 #define NEO_Q               KC_Q
-// NEO_SHARP_S
-// NEO_ACUTE (Dead)
+// NEO_DEAD3
+// Unicode: ß
 
 // Row 3
 #define NEO_U               KC_U
@@ -92,13 +93,13 @@ enum userspace_custom_keycodes {
 #define NEO_T               KC_T
 #define NEO_D               KC_D
 #define NEO_Y               KC_Y
-// #define NEO_MOD4
+// NEO_RMOD4
 
 // Row 4
-// NEO_MOD4
-// NEO_UDIA
-// NEO_ODIA
-// NEO_ADIA
+// NEO_LMOD4
+// Unicode: ü
+// Unicode: ö
+// Unicode: ä
 #define NEO_P               KC_P
 #define NEO_Z               KC_Z
 #define NEO_B               KC_B
@@ -143,7 +144,7 @@ enum userspace_custom_keycodes {
 #define NEO_1_G     NEO_G
 #define NEO_1_F     NEO_F
 #define NEO_1_Q     NEO_Q
-#define NEO_1_SS    NEO_SHARP_S
+#define NEO_1_SS    NEO_SMALL_SHARP_S
 
 // Layer 1 - Row 3
 // ================================================================================
@@ -161,9 +162,9 @@ enum userspace_custom_keycodes {
 
 // Layer 1 - Row 4
 // ================================================================================
-#define NEO_1_UE    NEO_UDIA
-#define NEO_1_OE    NEO_ODIA
-#define NEO_1_AE    NEO_ADIA
+#define NEO_1_UE    NEO_SMALL_U_DIARESIS
+#define NEO_1_OE    NEO_SMALL_O_DIARESIS
+#define NEO_1_AE    NEO_SMALL_A_DIARESIS
 #define NEO_1_P     NEO_P
 #define NEO_1_Z     NEO_Z
 #define NEO_1_B     NEO_B
@@ -202,7 +203,7 @@ enum userspace_custom_keycodes {
 #define NEO_2_G     NEO_G
 #define NEO_2_F     NEO_F
 #define NEO_2_Q     NEO_Q
-#define NEO_2_SS    NEO_SHARP_S
+#define NEO_2_SS    NEO_CAPITAL_SHARP_S
 
 // Layer 2 - Row 3
 // ================================================================================
@@ -220,9 +221,9 @@ enum userspace_custom_keycodes {
 
 // Layer 2 - Row 4
 // ================================================================================
-#define NEO_2_UE    NEO_UDIA
-#define NEO_2_OE    NEO_ODIA
-#define NEO_2_AE    NEO_ADIA
+#define NEO_2_UE    NEO_CAPITAL_U_DIARESIS
+#define NEO_2_OE    NEO_CAPITAL_O_DIARESIS
+#define NEO_2_AE    NEO_CAPITAL_A_DIARESIS
 #define NEO_2_P     NEO_P
 #define NEO_2_Z     NEO_Z
 #define NEO_2_B     NEO_B

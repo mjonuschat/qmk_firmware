@@ -47,7 +47,7 @@ bool process_record_user_neo_layer_1(uint16_t keycode, keyrecord_t *record) {
         // Row 2
         // ================================================================================
         case NEO_1_SS:
-            german_letter(NEO_SMALL_SHARP_S);
+            german_letter(KC_S);
             break;
         case NEO_DEAD_3:
             tap_code16_no_mods(NEO_DEAD_ACUTE);
@@ -55,13 +55,13 @@ bool process_record_user_neo_layer_1(uint16_t keycode, keyrecord_t *record) {
 
         // Row 4
         // ================================================================================
-        case NEO_UDIA:
+        case NEO_1_UE:
             german_letter(NEO_U);
             break;
-        case NEO_ODIA:
+        case NEO_1_OE:
             german_letter(NEO_O);
             break;
-        case NEO_ADIA:
+        case NEO_1_AE:
             german_letter(NEO_A);
             break;
         default:
@@ -121,7 +121,7 @@ bool process_record_user_neo_layer_2(uint16_t keycode, keyrecord_t *record) {
         // Row 2
         // ================================================================================
         case NEO_2_SS:
-            german_letter(NEO_CAPITAL_SHARP_S);
+            german_letter(S(KC_S));
             break;
         case NEO_DEAD_3:
             tap_code16_no_mods(NEO_DEAD_SMALL_TILDE);
@@ -129,13 +129,13 @@ bool process_record_user_neo_layer_2(uint16_t keycode, keyrecord_t *record) {
 
         // Row 4
         // ================================================================================
-        case NEO_UDIA:
+        case NEO_2_UE:
             german_letter(S(NEO_U));
             break;
-        case NEO_ODIA:
+        case NEO_2_OE:
             german_letter(S(NEO_O));
             break;
-        case NEO_ADIA:
+        case NEO_2_AE:
             german_letter(S(NEO_A));
             break;
         case NEO_2_COMM:
@@ -167,7 +167,7 @@ bool process_record_user_neo_layer_3(uint16_t keycode, keyrecord_t *record) {
 
         // Row 2
         // ================================================================================
-        case NEO_SHARP_S:
+        case NEO_3_SS:
             tap_code16_no_mods(NEO_SMALL_LONG_S);
             break;
         case NEO_DEAD_3:
@@ -198,7 +198,7 @@ bool process_record_user_neo_layer_4(uint16_t keycode, keyrecord_t *record) {
 
         // Row 2
         // ================================================================================
-        case NEO_SHARP_S:
+        case NEO_4_SS:
             tap_code16_no_mods(NEO_MINUS);
             break;
         case NEO_DEAD_3:
@@ -236,7 +236,7 @@ bool process_record_user_neo_layer_5(uint16_t keycode, keyrecord_t *record) {
 
         // Row 2
         // ================================================================================
-        case NEO_SHARP_S:
+        case NEO_4_SS:
             tap_code16_no_mods(NEO_GREEK_SMALL_SIGMA);
             break;
         case NEO_DEAD_3:
@@ -274,7 +274,7 @@ bool process_record_user_neo_layer_6(uint16_t keycode, keyrecord_t *record) {
 
         // Row 2
         // ================================================================================
-        case NEO_SHARP_S:
+        case NEO_6_SS:
             tap_code16_no_mods(NEO_RING_OPERATOR);
             break;
         case NEO_DEAD_3:

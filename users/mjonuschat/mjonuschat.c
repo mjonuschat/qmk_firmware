@@ -76,10 +76,10 @@ void        german_letter(uint16_t keycode) {
     clear_mods();
     clear_oneshot_mods();
     switch (keycode) {
-        case NEO_SMALL_SHARP_S:
-            tap_code16(NEO_SMALL_SHARP_S);
+        case KC_S:
+            tap_code16(A(KC_S));
             break;
-        case NEO_CAPITAL_SHARP_S:
+        case S(KC_S):
             tap_code16(S(NEO_S));
             tap_code16(S(NEO_S));
             break;

@@ -17,8 +17,14 @@
 
 // Row 2
 // ========================================================================================================================
-#define NEO_SMALL_SHARP_S LALT(KC_S)  // ß - U+00DF Latin Small Letter Sharp S
+#define NEO_SMALL_SHARP_S NEO_INTL_1  // ß - U+00DF Latin Small Letter Sharp S
 #define NEO_DEAD_ACUTE KC_NO          // ˊ - U+02CA Modifier Letter Acute Accent
+
+// Row 4
+// ========================================================================================================================
+#define NEO_SMALL_U_DIARESIS NEO_INTL_2  // ü - U+00FC Latin Small Letter U with Diaeresis
+#define NEO_SMALL_O_DIARESIS NEO_INTL_3  // ö - U+00F6 Latin Small Letter O with Diaeresis
+#define NEO_SMALL_A_DIARESIS NEO_INTL_4  // ä - U+00E4 Latin Small Letter A with Diaeresis
 
 // .__   __.  _______   ______       __          ___   ____    ____  _______ .______          ___
 // |  \ |  | |   ____| /  __  \     |  |        /   \  \   \  /   / |   ____||   _  \        |__ \.
@@ -45,11 +51,15 @@
 
 // Row 2
 // ========================================================================================================================
-#define NEO_CAPITAL_SHARP_S KC_NO   // ẞ - U+1E9E Latin Capital Letter Sharp S
+#define NEO_CAPITAL_SHARP_S NEO_INTL_1   // ẞ - U+1E9E Latin Capital Letter Sharp S
 #define NEO_DEAD_SMALL_TILDE KC_NO  // ˜ - U+02DC Small Tilde (Dead)
 
 // Row 4
 // ========================================================================================================================
+#define NEO_CAPITAL_U_DIARESIS NEO_INTL_2  // Ü - U+00FC Latin Capital Letter U with Diaeresis
+#define NEO_CAPITAL_O_DIARESIS NEO_INTL_3  // Ö - U+00F6 Latin Capital Letter O with Diaeresis
+#define NEO_CAPITAL_A_DIARESIS NEO_INTL_4  // Ä - U+00E4 Latin Capital Letter A with Diaeresis
+
 #define NEO_ENDASH LALT(KC_MINUS)  // – - U+2013 En Dash
 #define NEO_BULLET LALT(KC_8)      // • - U+2022 Bullet
 

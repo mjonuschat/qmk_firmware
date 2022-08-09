@@ -153,3 +153,20 @@ void                       matrix_slave_scan_user(void) {
     matrix_slave_scan_keymap();
 }
 #endif
+
+#ifdef ENCODER_ENABLE
+__attribute__((weak)) bool encoder_update_keymap(uint8_t index, bool clockwise) { return true; }
+bool                       encoder_update_user(uint8_t index, bool clockwise) {
+    if (!encoder_update_keymap(index, clockwise)) {
+        return false;
+    }
+
+    if (clockwise) {
+        tap_code(KC_VOLU);
+    } else {
+        tap_code(KC_VOLD);
+    }
+
+    return true;
+}
+#endif

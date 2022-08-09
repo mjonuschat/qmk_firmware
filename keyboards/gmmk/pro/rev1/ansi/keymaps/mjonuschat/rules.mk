@@ -1,0 +1,4 @@
+NEO_RMOD3_ANSI		= yes
+NEO_LAYER4_ANSI		= yes
+ENCODER_ENABLE 		= yes
+HOST_INPUT_PROFILE	= windows/en_us

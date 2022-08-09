@@ -58,7 +58,7 @@
 #    ifdef UNICODE_SELECTED_MODES
 #        undef UNICODE_SELECTED_MODES
 #    endif
-#    define UNICODE_SELECTED_MODES UC_WINC
+#    define UNICODE_SELECTED_MODES UC_WINC, UC_LNX
 #    define UNICODE_KEY_WINC KC_F13
 #endif
 

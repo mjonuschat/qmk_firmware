@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,    KC_LGUI, KC_LALT,                           KC_SPACE,                      KC_RALT, KC_RGUI, KC_RCTL, KC_LEFT,  KC_DOWN,    KC_RGHT
     ),
     [_MEDIA] = LAYOUT_wrapper(
-        _______,    KC_MPRV, KC_MNXT, KC_VOLD, KC_VOLU, _______,    ___________________BLANK___________________, _______, _______,  RESET,      KC_MUTE,
+        _______,    KC_MPRV, KC_MNXT, KC_VOLD, KC_VOLU, _______,    ___________________BLANK___________________, _______, UC_MOD,   RESET,      KC_MUTE,
         RGB_TOG,    RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_SPI,    ___________________BLANK___________________, _______, _______,  KC_F13,     KC_VOLU,
         _______,    _______, RGB_HUD, RGB_SAD, RGB_VAD, RGB_SPD,    ___________________BLANK___________________, _______, _______,  _______,    KC_VOLD,
         _______,    ___________________BLANK___________________,    ___________________BLANK___________________, _______, _______,              KC_MNXT,

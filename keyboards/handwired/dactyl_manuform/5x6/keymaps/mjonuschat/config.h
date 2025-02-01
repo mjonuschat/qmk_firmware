@@ -29,8 +29,10 @@
 #ifdef RGBLED_NUM
 #    undef RGBLED_NUM
 #endif
-#define RGBLED_NUM 18
+#define RGBLED_NUM 20
 
-#define RGBLED_SPLIT { 9, 9 }
+#define RGBLED_SPLIT { 10, 10 }
+#define RGBW
+#define WS2812_BYTE_ORDER WS2812_BYTE_ORDER_GRB
 #define RGBLIGHT_SLEEP
 #define RGBLIGHT_LIMIT_VAL 150
